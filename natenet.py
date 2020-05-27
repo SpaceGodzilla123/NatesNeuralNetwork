@@ -1,27 +1,20 @@
-
-
-
 import json
 import random
 import sys
-
-
 import numpy as np
+
 
 
 class QuadraticCost(object):
 
     @staticmethod
     def fn(a, y):
-        """Return the cost associated with an output ``a`` and desired output
-        ``y``.
 
-        """
         return 0.5*np.linalg.norm(a-y)**2
 
     @staticmethod
     def delta(z, a, y):
-        """Return the error delta from the output layer."""
+
         return (a-y) * sigmoid_prime(z)
 
 
@@ -54,13 +47,15 @@ class Network(object):
         self.weights = [np.random.randn(y, x)/np.sqrt(x)
                         for x, y in zip(self.sizes[:-1], self.sizes[1:])]
 
-    de
+    def large_weight_initializer(self):
+
+
         self.biases = [np.random.randn(y, 1) for y in self.sizes[1:]]
         self.weights = [np.random.randn(y, x)
                         for x, y in zip(self.sizes[:-1], self.sizes[1:])]
 
     def feedforward(self, a):
-        """Return the output of the network if ``a`` is input."""
+
         for b, w in zip(self.biases, self.weights):
             a = sigmoid(np.dot(w, a)+b)
         return a
@@ -75,7 +70,7 @@ class Network(object):
             early_stopping_n = 0):
 
 
-        # early stopping functionality:
+
         best_accuracy=1
 
         training_data = list(training_data)
@@ -85,7 +80,7 @@ class Network(object):
             evaluation_data = list(evaluation_data)
             n_data = len(evaluation_data)
 
-        # early stopping functionality:
+
         best_accuracy=0
         no_accuracy_change=0
 
@@ -152,10 +147,10 @@ class Network(object):
 
         nabla_b = [np.zeros(b.shape) for b in self.biases]
         nabla_w = [np.zeros(w.shape) for w in self.weights]
-
+        # feedforward
         activation = x
-        activations = [x]
-        zs = []
+        activations = [x] # list to store all the activations, layer by layer
+        zs = [] # list to store all the z vectors, layer by layer
         for b, w in zip(self.biases, self.weights):
             z = np.dot(w, activation)+b
             zs.append(z)
@@ -218,12 +213,13 @@ def load(filename):
     net.biases = [np.array(b) for b in data["biases"]]
     return net
 
-#### Miscellaneous functions
+
 def vectorized_result(j):
-    
+
     e = np.zeros((10, 1))
     e[j] = 1.0
     return e
+
 def sigmoid(z):
     """The sigmoid function."""
     return 1.0/(1.0+np.exp(-z))
